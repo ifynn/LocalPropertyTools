@@ -1,0 +1,32 @@
+<idea-plugin>
+    <id>com.fynn.intellij.plugin.localPropertyTools</id>
+    <name>LocalProperty</name>
+    <version>1.0</version>
+    <vendor email="ifynn@outlook.com" url="https://github.com/ifynn">Fynn Lee</vendor>
+
+    <description>A Plugin for Android 'local.properties' file.</description>
+
+    <change-notes>A Plugin for Android 'local.properties' file.</change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="com.fynn.intellij.plugin.localPropertyTools.main" class="com.fynn.intellij.LocalPropertyAction"
+                text="LocalProperty" description="An Action for file &#39;local.properties&#39;" icon="/logo.svg">
+            <add-to-group group-id="MainToolBar" anchor="last"/>
+        </action>
+    </actions>
+
+</idea-plugin>
