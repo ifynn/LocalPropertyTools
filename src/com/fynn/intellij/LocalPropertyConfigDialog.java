@@ -66,7 +66,7 @@ public class LocalPropertyConfigDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 onCancel();
-                Messages.showInfoMessage("hhh", "title");
+                Messages.showInfoMessage("hhhww", "title");
             }
         });
 
