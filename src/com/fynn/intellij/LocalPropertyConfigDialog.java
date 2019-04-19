@@ -1,11 +1,18 @@
 package com.fynn.intellij;
 
+import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.VirtualFile;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.Iterator;
+import java.util.Properties;
 
 public class LocalPropertyConfigDialog extends JDialog {
 
@@ -13,6 +20,7 @@ public class LocalPropertyConfigDialog extends JDialog {
     private JButton btnSave;
     private JButton btnCancel;
     private JButton btnSaveSync;
+    private JTextArea textData;
 
     private Project project;
     private AnActionEvent event;
@@ -47,6 +55,8 @@ public class LocalPropertyConfigDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        setMaximumSize(new Dimension(800,600));
     }
 
     private void initOthers() {
@@ -65,12 +75,13 @@ public class LocalPropertyConfigDialog extends JDialog {
         btnSaveSync.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onCancel();
-                Messages.showInfoMessage("hhhww", "title");
+                onOKAndSync();
             }
         });
 
         btnSaveSync.requestFocusInWindow();
+
+        loadLocalProperty();
     }
 
     public static void main(Project project, AnActionEvent event, LocalPropertySet set) {
@@ -80,13 +91,49 @@ public class LocalPropertyConfigDialog extends JDialog {
         dialog.setVisible(true);
     }
 
+    private void loadLocalProperty() {
+        if (propertySet.properties == null) {
+            return;
+        }
+
+        Iterator iterator = propertySet.properties.keySet().iterator();
+        textData.setText("");
+
+        while (iterator.hasNext()) {
+            String key = (String) iterator.next();
+            String value = propertySet.properties.getProperty(key);
+
+            textData.append(key);
+            textData.append("=");
+            textData.append(value);
+            textData.append("\n");
+        }
+    }
+
     private void onOK() {
-        // add your code here
-        dispose();
+        Properties properties = new Properties();
+        try {
+            properties.load(new StringReader(textData.getText()));
+
+            VirtualFile file = project.getBaseDir().findFileByRelativePath("./local.properties");
+            properties.store(new FileWriter(file.getPath()), "");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void onCancel() {
         // add your code here if necessary
         dispose();
+    }
+
+    private void onOKAndSync() {
+        dispose();
+        onOK();
+
+        AnAction syncProjectAction = event.getActionManager().getAction("Android.SyncProject");
+        if (syncProjectAction != null) {
+            syncProjectAction.actionPerformed(event);
+        }
     }
 }
