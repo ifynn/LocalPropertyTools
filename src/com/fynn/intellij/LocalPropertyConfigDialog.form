@@ -49,8 +49,9 @@
                   <actionCommand value="取消"/>
                   <borderPainted value="true"/>
                   <focusPainted value="true"/>
+                  <focusTraversalPolicyProvider value="false"/>
                   <focusable value="true"/>
-                  <requestFocusEnabled value="false"/>
+                  <requestFocusEnabled value="true"/>
                   <text value="取消"/>
                 </properties>
               </component>
@@ -60,7 +61,7 @@
                 </constraints>
                 <properties>
                   <focusable value="true"/>
-                  <requestFocusEnabled value="false"/>
+                  <requestFocusEnabled value="true"/>
                   <text value="保存"/>
                 </properties>
               </component>
@@ -83,12 +84,13 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="f4f8" class="javax.swing.JTextArea" binding="textData">
+              <component id="65774" class="javax.swing.JTextPane" binding="textData">
                 <constraints/>
                 <properties>
-                  <margin top="10" left="10" bottom="10" right="10"/>
-                  <minimumSize width="520" height="300"/>
-                  <preferredSize width="520" height="300"/>
+                  <background color="-1"/>
+                  <margin top="6" left="6" bottom="6" right="6"/>
+                  <minimumSize width="700" height="400"/>
+                  <preferredSize width="700" height="400"/>
                 </properties>
               </component>
             </children>

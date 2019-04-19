@@ -23,8 +23,8 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="com.fynn.intellij.plugin.localPropertyTools.main" class="com.fynn.intellij.LocalPropertyAction"
-                text="LocalProperty" description="An Action for file &#39;local.properties&#39;" icon="/logo.svg">
+        <action id="Android.LocalPropertyTools.Main" class="com.fynn.intellij.LocalPropertyAction"
+                text="LocalProperty" description="An Action for file &#39;local.properties&#39;">
             <add-to-group group-id="MainToolBar" anchor="last"/>
         </action>
     </actions>

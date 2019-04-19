@@ -3,9 +3,13 @@ package com.fynn.intellij;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileWriter;
@@ -20,7 +24,7 @@ public class LocalPropertyConfigDialog extends JDialog {
     private JButton btnSave;
     private JButton btnCancel;
     private JButton btnSaveSync;
-    private JTextArea textData;
+    private JTextPane textData;
 
     private Project project;
     private AnActionEvent event;
@@ -56,7 +60,7 @@ public class LocalPropertyConfigDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        setMaximumSize(new Dimension(800,600));
+        setMaximumSize(new Dimension(1600,1200));
     }
 
     private void initOthers() {
@@ -80,7 +84,6 @@ public class LocalPropertyConfigDialog extends JDialog {
         });
 
         btnSaveSync.requestFocusInWindow();
-
         loadLocalProperty();
     }
 
@@ -99,19 +102,33 @@ public class LocalPropertyConfigDialog extends JDialog {
         Iterator iterator = propertySet.properties.keySet().iterator();
         textData.setText("");
 
+        StyledDocument doc = textData.getStyledDocument();
+        SimpleAttributeSet attr = new SimpleAttributeSet();
+
         while (iterator.hasNext()) {
             String key = (String) iterator.next();
             String value = propertySet.properties.getProperty(key);
 
-            textData.append(key);
-            textData.append("=");
-            textData.append(value);
-            textData.append("\n");
+            try {
+                StyleConstants.setForeground(attr, new Color(0x000085));
+                StyleConstants.setBold(attr, true);
+                doc.insertString(doc.getLength(), key, attr);
+
+                doc.insertString(doc.getLength(), "=", null);
+
+                StyleConstants.setForeground(attr, new Color(0x008400));
+                doc.insertString(doc.getLength(), value, attr);
+
+                doc.insertString(doc.getLength(), "\n", null);
+
+            } catch (Exception e) {
+                Messages.showInfoMessage("An internal exception occurred", "LocalPropertyTools");
+            }
         }
     }
 
     private void onOK() {
-        Properties properties = new Properties();
+        Properties properties = new LinkedProperties();
         try {
             properties.load(new StringReader(textData.getText()));
 

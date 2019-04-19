@@ -4,7 +4,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 
 import java.io.IOException;
-import java.util.Properties;
 
 public class Utils {
 
@@ -18,7 +17,7 @@ public class Utils {
             return null;
         }
 
-        Properties properties = new Properties();
+        LinkedProperties properties = new LinkedProperties();
 
         try {
             properties.load(propertiesFile.getInputStream());
